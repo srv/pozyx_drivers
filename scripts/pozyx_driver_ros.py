@@ -84,7 +84,7 @@ class ReadyToLocalize(object):
 
         #Topic 3: Anchors Infor
         for i in range(len(anchors)):
-            dr = AnchorsRange()
+            dr = AnchorInfo()
             dr.header.stamp = rospy.get_rostime()
             dr.header.frame_id = self.frame_id
             dr.id = hex(anchors[i].network_id)
