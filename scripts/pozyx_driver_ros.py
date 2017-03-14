@@ -102,7 +102,7 @@ class ReadyToLocalize(object):
                 self.range_error_counts[i] += 1
                 if self.range_error_counts[i] > 9:
                     self.range_error_counts[i] = 0
-                    rospy.logerr("Anchor %s lost", dr.id)
+                    rospy.logerr("Anchor %d (%s) lost", i, dr.id)
             pub_anchors_info.publish(dr)
 
         #Topic 4: PoseStamped
