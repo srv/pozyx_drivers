@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
-import pypozyx
 import rospy
+import pypozy
+from pypozyx import *
 from std_msgs.msg import Header
 from geometry_msgs.msg import *
 from sensor_msgs.msg import Imu
-from pozyx_drivers.msg import AnchorsRange
+from pozyx_drivers.msg import AnchorInfo
 
 
 class ReadyToLocalize(object):
