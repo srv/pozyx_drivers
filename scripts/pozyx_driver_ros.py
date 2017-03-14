@@ -162,7 +162,7 @@ if __name__ == "__main__":
     # Creating publishers
     pub_pose_with_cov = rospy.Publisher('~pose_with_cov', PoseWithCovarianceStamped, queue_size=1)
     pub_imu = rospy.Publisher('~imu', Imu, queue_size=1)
-    pub_anchors_info = rospy.Publisher('~device_range', AnchorsRange, queue_size=1)
+    pub_anchors_info = rospy.Publisher('~device_range', AnchorInfo, queue_size=1)
     pub_pose = rospy.Publisher('~pose', PoseStamped , queue_size=1)
 
     anchors = [DeviceCoordinates(anchor0_id, 1, Coordinates(anchor0_coordinates[0], anchor0_coordinates[1], anchor0_coordinates[2])),
