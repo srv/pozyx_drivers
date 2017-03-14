@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <name>pozyx_drivers</name>
+  <version>0.0.1</version>
+  <description>Pozyx ROS driver</description>
+
+  <maintainer email="emilio.garcia@uib.es">Emilio Garcia-Fidalgo</maintainer>
+  <maintainer email="xisco.bonnin@uib.es">Francisco Bonnin-Pascual</maintainer>
+  <maintainer email="danimanogil@gmail.com">Daniel Mañogil</maintainer>
+
+  <license>TODO</license>
+
+  <author email="danimanogil@gmail.com">Daniel Mañogil</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <run_depend>rospy</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+  <export>
+  </export>
+</package>
