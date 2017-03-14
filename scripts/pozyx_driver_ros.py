@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-import pypozy
+import pypozyx
 from pypozyx import *
 from std_msgs.msg import Header
 from geometry_msgs.msg import *
