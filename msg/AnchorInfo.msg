@@ -1,5 +1,7 @@
 Header header
-bool status
+string child_frame_id
 string id
-uint32 distance
+bool status
+geometry_msgs/Point position
+float64 distance
 int16 RSS
