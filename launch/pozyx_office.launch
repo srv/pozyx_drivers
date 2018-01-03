@@ -7,7 +7,7 @@
     	<param name="dimension" value="3" />
         <!-- Height of the tag, required in 2.5D positioning -->
     	<param name="height" value="1000" />
-    	<param name="frequency" value="10" />
+    	<param name="frequency" value="50" />
 
 		<param name="anchor0_id" value="0x6828" />
 		<param name="anchor1_id" value="0x683D" />

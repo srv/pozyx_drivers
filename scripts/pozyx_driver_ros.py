@@ -195,10 +195,10 @@ if __name__ == "__main__":
     # Creating publishers
     pub_pose_with_cov = rospy.Publisher('~pose_with_cov', PoseWithCovarianceStamped, queue_size=1)
     pub_imu = rospy.Publisher('~imu', Imu, queue_size=1)
-    pub_anchor1_info = rospy.Publisher('~device_range_0', AnchorInfo, queue_size=1)
-    pub_anchor2_info = rospy.Publisher('~device_range_1', AnchorInfo, queue_size=1)
-    pub_anchor3_info = rospy.Publisher('~device_range_2', AnchorInfo, queue_size=1)
-    pub_anchor4_info = rospy.Publisher('~device_range_3', AnchorInfo, queue_size=1)
+    pub_anchor1_info = rospy.Publisher('~anchor_info_0', AnchorInfo, queue_size=1)
+    pub_anchor2_info = rospy.Publisher('~anchor_info_1', AnchorInfo, queue_size=1)
+    pub_anchor3_info = rospy.Publisher('~anchor_info_2', AnchorInfo, queue_size=1)
+    pub_anchor4_info = rospy.Publisher('~anchor_info_3', AnchorInfo, queue_size=1)
     pub_pose = rospy.Publisher('~pose', PoseStamped , queue_size=1)
     pub_pressure = rospy.Publisher('~pressure', FluidPressure , queue_size=1)
 
