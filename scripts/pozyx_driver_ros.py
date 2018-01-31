@@ -85,7 +85,7 @@ class ReadyToLocalize(object):
 
         pub_imu.publish(imu)
 
-        #Topic 3: Anchors Infor
+        #Topic 3: Anchors Info
         for i in range(len(anchors)):
             dr = AnchorInfo()
             dr.header.stamp = rospy.get_rostime()

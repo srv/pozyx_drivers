@@ -7,17 +7,21 @@
     	<param name="dimension" value="3" />
         <!-- Height of the tag, required in 2.5D positioning -->
     	<param name="height" value="1000" />
+
     	<param name="frequency" value="50" />
+
+        <param name="world_frame_id" value="pozyx_world" />
+        <param name="tag_frame_id" value="pozyx_tag" />
 
 		<param name="anchor0_id" value="0x6828" />
 		<param name="anchor1_id" value="0x683D" />
 		<param name="anchor2_id" value="0x6842" />
 		<param name="anchor3_id" value="0x685C" />
 
-    	<param name="anchor0_coordinates" value="0, 0, 1500" />
-    	<param name="anchor1_coordinates" value="4150, 0, 1500" />  <!--1577-->
-    	<param name="anchor2_coordinates" value="-400, 2300, 530" />
-    	<param name="anchor3_coordinates" value="3190, 2500, 1700" />
+    	<param name="anchor0_coordinates" value="-1200, -500, 1500" /><!--"0, 0, 1500" />-->
+    	<param name="anchor1_coordinates" value="2950, -500, 1500" /><!--"4150, 0, 1500" />-->
+    	<param name="anchor2_coordinates" value="-1600, 1800, 530" /><!--"-400, 2300, 530" />-->
+    	<param name="anchor3_coordinates" value="1990, 2000, 1700" /><!--"3190, 2500, 1700" />-->
     </node>
 
 </launch>
