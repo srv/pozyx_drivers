@@ -18,10 +18,10 @@
 		<param name="anchor2_id" value="0x6842" />
 		<param name="anchor3_id" value="0x685C" />
 
-    	<param name="anchor0_coordinates" value="-1200, -500, 1500" /><!--"0, 0, 1500" />-->
+    	<param name="anchor0_coordinates" value="-1200, -400, 2200" /><!--"0, 0, 1500" />-->
     	<param name="anchor1_coordinates" value="2950, -500, 1500" /><!--"4150, 0, 1500" />-->
-    	<param name="anchor2_coordinates" value="-1600, 1800, 530" /><!--"-400, 2300, 530" />-->
-    	<param name="anchor3_coordinates" value="1990, 2000, 1700" /><!--"3190, 2500, 1700" />-->
+    	<param name="anchor2_coordinates" value="-1700, 1500, 100" /><!--"-400, 2300, 530" />-->
+    	<param name="anchor3_coordinates" value="1990, 1750, 2080" /><!--"3190, 2500, 1700" />-->
     </node>
 
 </launch>
