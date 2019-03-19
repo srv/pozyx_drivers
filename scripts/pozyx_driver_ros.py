@@ -109,19 +109,10 @@ class ReadyToLocalize(object):
                 if self.range_error_counts[i] > 9:
                     self.range_error_counts[i] = 0
                     rospy.logerr("Anchor %d (%s) lost", i, dr.id)
-            # pub_anchors_info.publish(dr)
-            if i == 0:
-                dr.child_frame_id = "anchor_0"
-                pub_anchor1_info.publish(dr)
-            elif i == 1:
-                dr.child_frame_id = "anchor_1"
-                pub_anchor2_info.publish(dr)
-            elif i == 2:
-                dr.child_frame_id = "anchor_2"
-                pub_anchor3_info.publish(dr)
-            elif i == 3:
-                dr.child_frame_id = "anchor_3"
-                pub_anchor4_info.publish(dr)
+
+            dr.child_frame_id = "anchor_" + str(i)
+            pub_anchor_info[i].publish(dr)
+
 
         #Topic 4: PoseStamped
         ps = PoseStamped()
@@ -169,20 +160,26 @@ class ReadyToLocalize(object):
 
 if __name__ == "__main__":
 
-    serial_port = get_serial_ports()[0].device
+    # serial_port = get_serial_ports()[0].device
 
     rospy.init_node('pozyx_node')
 
     # Reading parameters
-    anchor0_id = int(rospy.get_param('~anchor0_id'), 16)
-    anchor1_id = int(rospy.get_param('~anchor1_id'), 16)
-    anchor2_id = int(rospy.get_param('~anchor2_id'), 16)
-    anchor3_id = int(rospy.get_param('~anchor3_id'), 16)
 
-    anchor0_coordinates = eval(rospy.get_param('~anchor0_coordinates'))
-    anchor1_coordinates = eval(rospy.get_param('~anchor1_coordinates'))
-    anchor2_coordinates = eval(rospy.get_param('~anchor2_coordinates'))
-    anchor3_coordinates = eval(rospy.get_param('~anchor3_coordinates'))
+    serial_port = rospy.get_param('~serial_port', '/dev/ttyACM0')
+
+    num_anchors = int(rospy.get_param('~num_anchors', 4))
+
+    anchor_id = []
+    anchor_coordinates = []
+
+    for i in range(num_anchors):
+        param_name = "~anchor" + str(i) + "_id"
+        anchor_id.append(int(rospy.get_param(param_name), 16))
+
+        param_name2 = "~anchor" + str(i) + "_coordinates"
+        anchor_coordinates.append(eval(rospy.get_param(param_name2)))
+
 
     algorithm = int(rospy.get_param('~algorithm'))
     dimension = int(rospy.get_param('~dimension'))
@@ -195,17 +192,19 @@ if __name__ == "__main__":
     # Creating publishers
     pub_pose_with_cov = rospy.Publisher('~pose_with_cov', PoseWithCovarianceStamped, queue_size=1)
     pub_imu = rospy.Publisher('~imu', Imu, queue_size=1)
-    pub_anchor1_info = rospy.Publisher('~anchor_info_0', AnchorInfo, queue_size=1)
-    pub_anchor2_info = rospy.Publisher('~anchor_info_1', AnchorInfo, queue_size=1)
-    pub_anchor3_info = rospy.Publisher('~anchor_info_2', AnchorInfo, queue_size=1)
-    pub_anchor4_info = rospy.Publisher('~anchor_info_3', AnchorInfo, queue_size=1)
+
+    anchors = []
+    for i in range(num_anchors):
+        anchors.append(DeviceCoordinates(anchor_id[i], 1, Coordinates(anchor_coordinates[i][0], anchor_coordinates[i][1], anchor_coordinates[i][2])))
+
+    pub_anchor_info = []
+
+    for i in range(len(anchors)):
+        topic_name = "~anchor_info_" + str(i)
+        pub_anchor_info.append(rospy.Publisher(topic_name, AnchorInfo, queue_size=1))
+
     pub_pose = rospy.Publisher('~pose', PoseStamped , queue_size=1)
     pub_pressure = rospy.Publisher('~pressure', FluidPressure , queue_size=1)
-
-    anchors = [DeviceCoordinates(anchor0_id, 1, Coordinates(anchor0_coordinates[0], anchor0_coordinates[1], anchor0_coordinates[2])),
-               DeviceCoordinates(anchor1_id, 1, Coordinates(anchor1_coordinates[0], anchor1_coordinates[1], anchor1_coordinates[2])),
-               DeviceCoordinates(anchor2_id, 1, Coordinates(anchor2_coordinates[0], anchor2_coordinates[1], anchor2_coordinates[2])),
-               DeviceCoordinates(anchor3_id, 1, Coordinates(anchor3_coordinates[0], anchor3_coordinates[1], anchor3_coordinates[2]))]
 
     rate = rospy.Rate(frequency)
 
