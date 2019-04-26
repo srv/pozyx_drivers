@@ -1,0 +1,39 @@
+<launch>
+
+    <node name="pozyx_node" pkg="pozyx_drivers" type="pozyx_driver_ros.py" output="screen">
+        <!-- POZYX_POS_ALG_UWB_ONLY = 0   POZYX_POS_ALG_TRACKING = 4   POZYX_POS_ALG_LS = removed -->
+    	<param name="algorithm" value="4" />
+        <!-- POZYX_3D = 3    POZYX_2D = 2    POZYX_2_5D = 1 -->
+    	<param name="dimension" value="3" />
+        <!-- Height of the tag, required in 2.5D positioning -->
+    	<param name="height" value="1000" />
+
+        <param name="frequency" value="50" />
+
+    	<param name="num_anchors" value="8" />
+
+        <param name="world_frame_id" value="pozyx_world" />
+        <param name="tag_frame_id" value="pozyx_tag" />
+
+		<param name="anchor0_id" value="0x6746" />
+		<param name="anchor1_id" value="0x673D" />
+		<param name="anchor2_id" value="0x6765" />
+		<param name="anchor3_id" value="0x683D" />
+
+        <param name="anchor4_id" value="0x6828" />
+        <param name="anchor5_id" value="0x685C" />
+        <param name="anchor6_id" value="0x6842" />
+        <param name="anchor7_id" value="0x6735" />
+
+    	<param name="anchor0_coordinates" value="0, -3055, 450" />
+    	<param name="anchor1_coordinates" value="2217, -2713, 2762" />
+    	<param name="anchor2_coordinates" value="8529, -677, 407" />
+    	<param name="anchor3_coordinates" value="15420, 796, 3628" />
+
+        <param name="anchor4_coordinates" value="15420, 6183, 3586" />
+        <param name="anchor5_coordinates" value="12209, 7834, 509" />
+        <param name="anchor6_coordinates" value="7037, 8686, 344" />
+        <param name="anchor7_coordinates" value="3122, 9350, 2610" />
+    </node>
+    
+</launch>
