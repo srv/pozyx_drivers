@@ -104,11 +104,18 @@ class ReadyToLocalize(object):
                 dr.status = True
                 self.range_error_counts[i] = 0
             else:
-                dr.status = False
-                self.range_error_counts[i] += 1
-                if self.range_error_counts[i] > 9:
+                status = self.pozyx.doRanging(self.anchors[i].network_id, device_range)
+                dr.distance = (float)(device_range.distance) * 0.001
+                dr.RSS = device_range.RSS
+                if status == POZYX_SUCCESS:
+                    dr.status = True
                     self.range_error_counts[i] = 0
-                    rospy.logerr("Anchor %d (%s) lost", i, dr.id)
+                else:
+                    dr.status = False
+                    self.range_error_counts[i] += 1
+                    if self.range_error_counts[i] > 9:
+                        self.range_error_counts[i] = 0
+                        rospy.logerr("Anchor %d (%s) lost", i, dr.id)
 
             dr.child_frame_id = "anchor_" + str(i)
             pub_anchor_info[i].publish(dr)
