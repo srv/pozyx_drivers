@@ -114,6 +114,7 @@ class ReadyToLocalize(object):
                     if self.range_error_counts[i] > 9:
                         self.range_error_counts[i] = 0
                         rospy.logerr("Anchor %d (%s) lost", i, dr.id)
+                iter_ranging += 1
 
 
 
