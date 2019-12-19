@@ -13,7 +13,7 @@ from sensor_msgs.msg import FluidPressure
 class ReadyToLocalize(object):
 
     #def __init__(self, pozyx, anchors, algorithm=POZYX_POS_ALG_LS, dimension=POZYX_3D, height=1000):
-    def __init__(self, pozyx, anchors, do_ranging_attempts, world_frame_id, tag_frame_id, algorithm=POZYX_POS_ALG_TRACKING, dimension=POZYX_3D, height=1000):
+    def __init__(self, pozyx, anchors, do_ranging_attempts, world_frame_id, tag_frame_id, tag_device_id, algorithm=POZYX_POS_ALG_TRACKING, dimension=POZYX_3D, height=1000):
         self.pozyx = pozyx
         self.anchors = anchors
         self.algorithm = algorithm
@@ -22,6 +22,7 @@ class ReadyToLocalize(object):
         self.range_error_counts = [0 for i in xrange(len(self.anchors))]
         self.world_frame_id = world_frame_id
         self.tag_frame_id = tag_frame_id
+        self.tag_device_id = tag_device_id
         self.do_ranging_attempts = do_ranging_attempts
 
     def setup(self):
@@ -38,9 +39,9 @@ class ReadyToLocalize(object):
         pwc.pose.pose.orientation =  pypozyx.Quaternion()
         cov = pypozyx.PositionError()
 
-        status = self.pozyx.doPositioning(pwc.pose.pose.position, self.dimension, self.height, self.algorithm)
-        pozyx.getQuaternion(pwc.pose.pose.orientation)
-        pozyx.getPositionError(cov)
+        status = self.pozyx.doPositioning(pwc.pose.pose.position, self.dimension, self.height, self.algorithm, self.tag_device_id)
+        pozyx.getQuaternion(pwc.pose.pose.orientation, self.tag_device_id)
+        pozyx.getPositionError(cov, self.tag_device_id)
 
         cov_row1 =[cov.x, cov.xy, cov.xz, 0, 0, 0]
         cov_row2 =[cov.xy, cov.y, cov.yz, 0, 0, 0]
@@ -70,9 +71,9 @@ class ReadyToLocalize(object):
         imu.linear_acceleration = pypozyx.LinearAcceleration()
         imu.linear_acceleration_covariance = [0,0,0,0,0,0,0,0,0]
 
-        pozyx.getQuaternion(imu.orientation)
-        pozyx.getAngularVelocity_dps(imu.angular_velocity)
-        pozyx.getLinearAcceleration_mg(imu.linear_acceleration)
+        pozyx.getQuaternion(imu.orientation, self.tag_device_id)
+        pozyx.getAngularVelocity_dps(imu.angular_velocity, self.tag_device_id)
+        pozyx.getLinearAcceleration_mg(imu.linear_acceleration, self.tag_device_id)
 
         #Convert from mg to m/s2
         imu.linear_acceleration.x = imu.linear_acceleration.x * 0.0098
@@ -100,7 +101,7 @@ class ReadyToLocalize(object):
             while iter_ranging < self.do_ranging_attempts:
 
                 device_range = DeviceRange()
-                status = self.pozyx.doRanging(self.anchors[i].network_id, device_range)
+                status = self.pozyx.doRanging(self.anchors[i].network_id, device_range, self.tag_device_id)
                 dr.distance = (float)(device_range.distance) * 0.001
                 dr.RSS = device_range.RSS
 
@@ -159,7 +160,7 @@ class ReadyToLocalize(object):
         pr.header.frame_id = self.tag_frame_id
         pressure = pypozyx.Pressure()
         
-        pozyx.getPressure_Pa(pressure)
+        pozyx.getPressure_Pa(pressure, self.tag_device_id)
         pr.fluid_pressure = pressure.value
         pr.variance = 0
 
@@ -199,6 +200,7 @@ if __name__ == "__main__":
     serial_port = rospy.get_param('~serial_port', '/dev/ttyACM0')
 
     num_anchors = int(rospy.get_param('~num_anchors', 4))
+    tag_device_id = eval((rospy.get_param('~tag_device_id', 'None')))
 
     anchor_id = []
     anchor_coordinates = []
@@ -244,7 +246,7 @@ if __name__ == "__main__":
 
     # Starting communication with Pozyx
     pozyx = PozyxSerial(serial_port)
-    rdl = ReadyToLocalize(pozyx, anchors, do_ranging_attempts, world_frame_id, tag_frame_id, algorithm, dimension, height)
+    rdl = ReadyToLocalize(pozyx, anchors, do_ranging_attempts, world_frame_id, tag_frame_id, tag_device_id, algorithm, dimension, height)
     rdl.setup()
     while not rospy.is_shutdown():
         rdl.loop()
